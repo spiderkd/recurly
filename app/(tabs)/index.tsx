@@ -28,20 +28,14 @@ export default function App() {
       </Link>
 
       <Link
-        href="/(tabs)/subscriptions/spotify"
-        className="mt-4 px-4 py-2 bg-primary rounded text-white"
-      >
-        Go to Subscriptions
-      </Link>
-      <Link
         href={{
-          pathname: "/(tabs)/subscriptions/[id]",
+          pathname: "/subscriptions/[id]",
           params: { id: "spotify" },
         }}
         className="mt-4 px-4 py-2 bg-primary rounded text-white"
       >
         Go to Subscription Details
-      </Link> 
+      </Link>
     </View>
   );
 }
