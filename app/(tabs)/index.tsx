@@ -1,5 +1,5 @@
 import "@/global.css";
-import { Link } from "expo-router";
+
 import { FlatList, Image, Text, View } from "react-native";
 import { useUser } from "@clerk/expo";
 import { styled } from "nativewind";
@@ -8,7 +8,6 @@ import images from "@/constants/images";
 import {
   HOME_BALANCE,
   HOME_SUBSCRIPTIONS,
-  HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
@@ -18,6 +17,7 @@ import ListHeading from "@/components/ListHeading";
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import { useState } from "react";
 import SubscriptionCard from "@/components/SubscriptionCard";
+import { posthog } from "@/src/config/posthog";
 
 const SafeAreaView = styled(RNSafeAreaView);
 
@@ -32,13 +32,13 @@ export default function App() {
     setExpandedSubscriptionId((currentId) =>
       currentId === item.id ? null : item.id,
     );
-    // posthog.capture(
-    //   isExpanding ? "subscription_expanded" : "subscription_collapsed",
-    //   {
-    //     subscription_name: item.name,
-    //     subscription_id: item.id,
-    //   },
-    // );
+    posthog.capture(
+      isExpanding ? "subscription_expanded" : "subscription_collapsed",
+      {
+        subscription_name: item.name,
+        subscription_id: item.id,
+      },
+    );
   };
   const displayName =
     user?.firstName ||
